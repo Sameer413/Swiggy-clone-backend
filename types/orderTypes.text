@@ -1,0 +1,93 @@
+import { Schema, model, Types } from "mongoose";
+
+// Define the types
+interface OrderItem {
+  name: string;
+  quantity: number;
+  price: number;
+  specialInstructions?: string;
+  total: number;
+}
+
+interface OrderStatus {
+  status: string;
+  timestamp: Date;
+}
+
+interface OrderType {
+  orderID: string;
+  userID: Types.ObjectId;
+  restaurantID: Types.ObjectId;
+  userInformation: {
+    name: string;
+    contactNumber: string;
+    deliveryAddress: {
+      street: string;
+      city: string;
+      state: string;
+      postalCode: string;
+      additionalInstructions?: string;
+    };
+  };
+  restaurantInformation: {
+    name: string;
+    contactNumber: string;
+    address: {
+      street: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+  };
+  items: OrderItem[];
+  paymentInformation: {
+    paymentMethod: string;
+    transactionID?: string;
+  };
+  orderStatus: OrderStatus[];
+  deliveryDriverInformation?: {
+    name: string;
+    contactNumber: string;
+    photo?: string;
+  };
+  orderTotal: {
+    subtotal: number;
+    taxesAndFees: number;
+    discounts: number;
+    deliveryFee: number;
+    grandTotal: number;
+  };
+  timestamps: {
+    orderPlacement: Date;
+    acceptedByRestaurant?: Date;
+    pickedUpByDriver?: Date;
+    delivered?: Date;
+  };
+  orderNotes?: string;
+  feedbackAndRatings?: {
+    rating: number;
+    feedbackText: string;
+  };
+  orderHistory: Types.ObjectId[];
+}
+
+// Create the order schema
+const orderSchema = new Schema<OrderType>({
+  orderID: {
+    type: String,
+    unique: true,
+    required: [true, "Order ID is required"],
+  },
+  userID: {
+    type: Schema.Types.ObjectId,
+    required: [true, "User ID is required"],
+  },
+  restaurantID: {
+    type: Schema.Types.ObjectId,
+    required: [true, "Restaurant ID is required"],
+  },
+  // Define other fields...
+});
+
+// Create the Order model
+export const Order = model<OrderType>("Order", orderSchema);
