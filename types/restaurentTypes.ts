@@ -20,4 +20,5 @@ export interface RestaurentModelType extends Document {
     createdAt: Date;
     restaurent_type: string;
     cuisine: string[];
+    // menu: Types.ObjectId;
 }

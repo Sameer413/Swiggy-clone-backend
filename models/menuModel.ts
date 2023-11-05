@@ -19,7 +19,7 @@ const MenuSchema = new Schema<MenuTypes>({
             type: String,
             required: [true, 'cuisine is required!'],
         },
-        meal_types: {
+        meal_type: {
             type: String,
         },
         price: {

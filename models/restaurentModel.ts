@@ -57,6 +57,10 @@ const restaurentSchema = new Schema<RestaurentModelType>({
         type: [String],
         required: [true, 'Cuisine is required!']
     },
+    // menu: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Menu'
+    // },
     createdAt: {
         type: Date,
         default: () => Date.now()
