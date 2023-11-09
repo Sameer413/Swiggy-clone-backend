@@ -1,13 +1,17 @@
 import { Schema, model } from "mongoose";
 import { UserType } from "../types/userTypes";
 
-
 const emailRegexPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
 const userSchema = new Schema<UserType>({
     name: {
         type: String,
+    },
+    mobile: {
+        type: Number,
+        match: /^[0-9]{10}$/,
+        unique: true,
     },
     email: {
         type: String,
@@ -52,6 +56,8 @@ const userSchema = new Schema<UserType>({
         type: String,
         default: "user",
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
 })
 
 export const User = model<UserType>('User', userSchema);
@@ -72,3 +78,12 @@ export const getUser = async (email: String) => {
     const user = await User.findOne({ email });
     return user;
 }
+
+// userSchema.methods.getResetPassToken = function () {
+//     const resetToken: string = crypto.randomBytes(15).toString("hex");
+
+//     this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+//     this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+//     return resetToken;
+// }

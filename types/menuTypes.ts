@@ -1,7 +1,8 @@
-import { Document, Types } from "mongoose";
+import { Document, Types, } from "mongoose";
 
-type MenuItem = {
-    name: string,
+interface MenuItem {
+    _id?: Types.ObjectId;   /*Need to add this because of the access issue of _id in array*/
+    name: String,
     description?: string,
     cuisine_type: string,   /*Indian,Italian,Chinese,Thai,etc*/
     meal_type: string,     /*Dinner,Breakfast,Lunch,Snack,etc*/
