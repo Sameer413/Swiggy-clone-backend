@@ -1,6 +1,7 @@
 class ApiFeature {
     query: any;
     queryStr: any;
+
     constructor(query: any, queryStr: any) {
         this.query = query;
         this.queryStr = queryStr;
@@ -9,7 +10,7 @@ class ApiFeature {
     search() {
         const keyword = this.queryStr.keyword
             ? {
-                restaurent_name: {
+                restaurant_name: {
                     $regex: this.queryStr.keyword,
                     $options: "i",
                 },

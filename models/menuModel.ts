@@ -35,6 +35,16 @@ const MenuSchema = new Schema<MenuTypes>({
             type: Boolean,
             required: [true, 'Veg Or Non-veg is required!'],
             default: false,
+        },
+        dishImage: {
+            public_url: {
+                type: String,
+                // required: true
+            },
+            url: {
+                type: String,
+                // required: true,
+            },
         }
     }],
     createdAt: {

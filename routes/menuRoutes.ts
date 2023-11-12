@@ -1,12 +1,15 @@
 import express from 'express';
 import { addMenuItem, deleteMenuItem, getAllMenuByRestaurentId, updateMenuItem } from '../controllers/menuController';
+import multerUploads from '../middleware/multer';
 
 const router = express.Router();
 
 router.route('/:restaurentId/menu').get(getAllMenuByRestaurentId);
-router.route('/:restaurentId/menu/add').post(addMenuItem);
+router.route('/:restaurentId/menu/add').post(multerUploads, addMenuItem);
 router
-    .route('/:restuarentId/menu/:menuId')
+    .route('/:restaurentId/menu/:menuId')
     .delete(deleteMenuItem)
-    .put(updateMenuItem)
+    .put(multerUploads, updateMenuItem)
+
+// router.route('/menutest/:restaurentId').get(menuTesting)
 export default router;

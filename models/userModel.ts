@@ -56,6 +56,16 @@ const userSchema = new Schema<UserType>({
         type: String,
         default: "user",
     },
+    avatar: {
+        public_id: {
+            type: String,
+            required: [true, "Avatar Public id is required!"],
+        },
+        url: {
+            type: String,
+            required: [true, "avatar url is required!"],
+        }
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 })

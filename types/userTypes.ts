@@ -20,4 +20,8 @@ export interface UserType extends Document {
     role: string;
     resetPasswordToken?: string;
     resetPasswordExpire?: Date;
+    avatar?: {
+        public_id: string;
+        url: string;
+    }
 }

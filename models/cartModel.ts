@@ -1,18 +1,8 @@
-import { Document, Schema, Types, model } from "mongoose";
-
-interface CartType extends Document {
-    menu_id: Types.ObjectId;
-    user_id: Types.ObjectId;
-    restaurent_id: Types.ObjectId;
-    quantity: number;
-}
+import { Schema, model } from "mongoose";
+import { CartType } from "../types/cartTypes";
 
 const cartModel = new Schema<CartType>({
-    menu_id: {
-        type: Schema.Types.ObjectId,
-        required: [true, 'Menu id required!'],
-        ref: 'Menu'
-    },
+
     user_id: {
         type: Schema.Types.ObjectId,
         required: [true, 'Menu id required!'],
@@ -22,10 +12,32 @@ const cartModel = new Schema<CartType>({
         type: Schema.Types.ObjectId,
         required: [true, 'Menu id required!'],
     },
-    quantity: {
-        type: Number,
-        default: 1,
-    }
+    items: [
+        {
+            menuItemId: {
+                type: Schema.Types.ObjectId,
+            },
+            name: {
+                type: String,
+                required: true
+            },
+            price: {
+                type: Number,
+                required: true
+            },
+            specialInstructions: {
+                type: String,
+            },
+            total: {
+                type: Number,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 });
 
 export const Cart = model<CartType>('Cart', cartModel);

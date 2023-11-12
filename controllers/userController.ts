@@ -7,7 +7,8 @@ import sendToken from "../utils/sendToken";
 import { UserType } from "../types/userTypes";
 import crypto from "crypto";
 import { sendEmail } from "../utils/sendEmail";
-
+import { getDataUri } from "../utils/dataUri";
+import cloudinary from "cloudinary";
 
 export const signUp = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password, confirmPassword } = req.body;
@@ -303,3 +304,17 @@ export const deleteUser = catchAsyncError(async (req: Request, res: Response, ne
         return next(new ErrorHandler('Failed to delete user', 500));
     }
 });
+
+export const testingRoute = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    const data: any = req.file;
+
+    const fileUri = getDataUri(data);
+
+    // const myCloud = await cloudinary.v2.uploader.upload(fileUri.content || '', { folder: 'UserAvatar' });
+    // take data from myCloud.secure_url and myCloud.public_id 
+    // save it in user schema done
+
+    res.status(200).json({
+        data
+    })
+})

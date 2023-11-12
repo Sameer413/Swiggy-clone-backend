@@ -1,6 +1,7 @@
 import { Document, Types } from "mongoose";
 
-interface OrderItem {
+export interface OrderItem {
+    menuItemId?: Types.ObjectId;
     name: string;
     quantity: number;
     price: number;
@@ -10,24 +11,24 @@ interface OrderItem {
 
 interface OrderStatus {
     status: string;
-    timestamp: Date;
+    timestamp?: Date;
 }
 
 export interface OrderTypes extends Document {
-    user_id: Types.ObjectId;
+    user_id: Types.ObjectId;   /*Customer's Account Id where from which order is placed!*/
     restaurent_id: Types.ObjectId;
     items: OrderItem[];
-    orderStatus: OrderStatus[];
+    orderStatus: OrderStatus[]; /*  Preparing / Ready / PickedUp / Delivered / Cancel  */
     orderTotal: {
         subTotal: number;
         taxesAndFees: number;
-        discount: number;
+        discount?: number;
         deliveryFee: number;
         grandTotal: number;
     },
     orderNotes?: string;
-    feedbackAndRating: {
-        rating: number;
+    feedbackAndRating?: {
+        rating?: number;
         feedbackText?: string;
     },
     timestamp: {
@@ -38,6 +39,6 @@ export interface OrderTypes extends Document {
     },
     paymentInformation: {
         paymentMethod: string;
-        transactionId: string;
+        transactionId?: string;
     }
 }

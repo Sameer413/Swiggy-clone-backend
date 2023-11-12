@@ -105,24 +105,62 @@ export const deleteRestaurent = catchAsyncError(async (req: Request, res: Respon
     }
 });
 
-interface RestuarentQueryParams {
-    restaurent_name?: string;
-    city?: string;
-    restaurent_type?: string;
-    cuisine?: string;
-}
 
 export const getAllRestaurent = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const apiFeature = new ApiFeature(Restaurent.find(), req.query).search();
+    const { restaurent_name, city, restaurent_type } = req.query;
 
-        let resto = await apiFeature.query;
+    try {
+        const query: any = {};
+
+        if (city) {
+            query.city = city.toString();
+        }
+
+        if (restaurent_name) {
+            query.restaurent_name = {
+                $regex: restaurent_name.toString(),
+                $options: 'i',
+            }
+        }
+
+        if (restaurent_type) {
+            query.restaurent_type = {
+                $regex: restaurent_type.toString(),
+            }
+        }
+
+        const restaurents = await Restaurent.find(query);
+
+        if (restaurents.length === 0) {
+            return next(new ErrorHandler('No restaurent service found in your city', 404));
+        }
 
         res.status(200).json({
-            resto
-        })
+            restaurents
+        });
+
     } catch (error) {
-
+        console.log();
+        return next(new ErrorHandler('Failed to load restaurents', 500));
     }
+});
 
-})
+export const getSingleRestaurent = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const restaurentId = req.params.restaurentId;
+
+        const restaurent = await Restaurent.findById(restaurentId);
+
+        if (!restaurent) {
+            return next(new ErrorHandler('Restaurent not found', 404));
+        }
+
+        res.status(200).json({
+            success: true,
+            restaurent
+        });
+    } catch (error) {
+        console.log(error);
+        return next(new ErrorHandler('Failed to load restaurent', 500));
+    }
+});
