@@ -305,16 +305,16 @@ export const deleteUser = catchAsyncError(async (req: Request, res: Response, ne
     }
 });
 
-export const testingRoute = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
-    const data: any = req.file;
+// export const testingRoute = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+//     const data: any = req.file;
 
-    const fileUri = getDataUri(data);
+//     const fileUri = getDataUri(data);
 
-    // const myCloud = await cloudinary.v2.uploader.upload(fileUri.content || '', { folder: 'UserAvatar' });
-    // take data from myCloud.secure_url and myCloud.public_id 
-    // save it in user schema done
+//     // const myCloud = await cloudinary.v2.uploader.upload(fileUri.content || '', { folder: 'UserAvatar' });
+//     // take data from myCloud.secure_url and myCloud.public_id
+//     // save it in user schema done
 
-    res.status(200).json({
-        data
-    })
-})
+//     res.status(200).json({
+//         data
+//     })
+// })

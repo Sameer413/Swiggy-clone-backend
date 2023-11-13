@@ -4,6 +4,7 @@ import { Order } from "../models/orderModel";
 import { OrderTypes } from "../types/orderTypes";
 import { Cart } from "../models/cartModel";
 import ErrorHandler from "../utils/ErrorHandler";
+import { createPayment } from "./razorPayController";
 
 export const makeOrder = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
 
@@ -105,7 +106,7 @@ export const getAllUserOrders = catchAsyncError(async (req: Request, res: Respon
         console.log(error);
         return next(new ErrorHandler('Failed to load orders', 500));
     }
-})
+});
 
 
 export const getSingleOrder = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
@@ -214,3 +215,120 @@ export const showRestaurentReviews = catchAsyncError(async (req: Request, res: R
     }
 
 });
+
+// export const test = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+
+//     const customer_id = req.user?._id;
+//     const restaurent_id = req.params.restaurentId;
+
+//     const cart = await Cart.findOne({ user_id: customer_id, restaurent_id: restaurent_id });
+
+//     if (!cart) {
+//         return next(new ErrorHandler('Cart not found for order', 404));
+//     }
+
+//     const orderItems = cart.items;
+//     console.log(orderItems);
+
+//     if (orderItems.length <= 0) {
+//         return next(new ErrorHandler('No order Items found', 404));
+//     }
+
+//     const {
+//         subTotal,
+//         taxesAndFees,
+//         discount,
+//         deliveryFee,
+//         grandTotal,
+//         orderNotes,
+//         paymentMethod,
+//         transactionId,
+//     } = req.body;
+
+//     try {
+
+//         const order: OrderTypes = await Order.create({
+//             user_id: customer_id,
+//             restaurent_id: restaurent_id,
+//             timestamp: {
+//                 orderPlacement: new Date()
+//             },
+//             orderTotal: {
+//                 deliveryFee: deliveryFee,
+//                 taxesAndFees: taxesAndFees,
+//                 discount: discount,
+//                 grandTotal: grandTotal,
+//                 subTotal: subTotal,
+//             },
+//         });
+
+//         if (paymentMethod === "Online") {
+
+//             const paymentInfo = await createPayment(grandTotal, order._id);
+//             console.log(paymentInfo);
+
+//         }
+
+//         order.orderStatus.push({
+//             status: 'Pending',
+//             // timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+//         });
+
+//         order.orderNotes = orderNotes || null;
+
+//         order.paymentInformation = {
+//             paymentMethod: paymentMethod,
+//             transactionId: transactionId || undefined,
+//         }
+
+//         order.items = orderItems;
+//         order.timestamp = {
+//             orderPlacement: new Date()
+//         }
+
+
+//         order.save();
+
+
+//         // const order: OrderTypes = await Order.create({
+//         //     user_id: customer_id,
+//         //     restaurent_id: restaurent_id,
+//         //     orderStatus: [
+//         //         {
+//         //             status: 'Pending',
+//         //             timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+//         //         }
+//         //     ],
+//         //     orderNotes: orderNotes || null,
+//         //     orderTotal: {
+//         //         deliveryFee: deliveryFee,
+//         //         taxesAndFees: taxesAndFees,
+//         //         discount: discount,
+//         //         grandTotal: grandTotal,
+//         //         subTotal: subTotal,
+//         //     },
+//         //     paymentInformation: {
+//         //         paymentMethod: paymentMethod,
+//         //         transactionId: transactionId || undefined,
+//         //     },
+//         //     items: orderItems,
+//         //     timestamp: {
+//         //         orderPlacement: new Date().toLocaleString()
+//         //     }
+//         // });
+
+//         res.status(200).json({
+//             success: true,
+//             message: 'Order Placed!',
+//             order,
+//         });
+
+//     } catch (error) {
+//         // console.log(error);
+//         res.json({
+//             error
+//         })
+//         return next(new ErrorHandler('Failed to place order please try again later', 500));
+//     }
+
+// });

@@ -5,8 +5,10 @@ import { isAuthenticated } from '../middleware/auth';
 const router = express.Router();
 
 router.route('/cart/:restaurentId').post(isAuthenticated, addCartItem);
-router.route('/cart').put(isAuthenticated, updateCartItem);
-router.route('/cart').delete(isAuthenticated, removeCartItem);
-router.route('/cart').get(isAuthenticated, showCartItems);
+
+router.route('/cart')
+    .put(isAuthenticated, updateCartItem)
+    .delete(isAuthenticated, removeCartItem)
+    .get(isAuthenticated, showCartItems);
 
 export default router;

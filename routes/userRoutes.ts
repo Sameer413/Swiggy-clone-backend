@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { addUserAddress, deleteUser, deleteUserAddress, resetPassword, sendResetPasswordEmail, signIn, signOut, signUp, testingRoute, updatePassword, updateProfile } from "../controllers/userController";
+import { addUserAddress, deleteUser, deleteUserAddress, resetPassword, sendResetPasswordEmail, signIn, signOut, signUp, updatePassword, updateProfile } from "../controllers/userController";
 import { isAuthenticated } from "../middleware/auth";
-import multerUploads from "../middleware/multer";
+// import multerUploads from "../middleware/multer";
 
 const router = Router();
 
@@ -19,6 +19,6 @@ router.route('/password/forgot').post(sendResetPasswordEmail);
 router.route('/password/reset/:token').post(resetPassword);
 
 // tests
-router.route('/testing').post(multerUploads, testingRoute)
+// router.route('/testing').post(multerUploads, testingRoute)
 
 export default router;

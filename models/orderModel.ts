@@ -47,6 +47,7 @@ const orderSchema = new Schema<OrderTypes>({
     timestamp: {
         orderPlacement: {
             type: Date,
+            default: () => new Date()
         },
         acceptedByRestaurent: {
             type: Date,

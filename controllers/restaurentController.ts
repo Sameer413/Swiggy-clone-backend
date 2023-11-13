@@ -3,7 +3,8 @@ import catchAsyncError from "../middleware/catchAsyncError";
 import { RestaurentModelType } from "../types/restaurentTypes";
 import ErrorHandler from "../utils/ErrorHandler";
 import { Restaurent } from "../models/restaurentModel";
-import ApiFeature from "../utils/apiFeatures";
+import { User } from "../models/userModel";
+
 
 export const createRestaurent = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     const {
@@ -57,6 +58,11 @@ export const createRestaurent = catchAsyncError(async (req: Request, res: Respon
             restaurent_type,
             cuisine,
         });
+
+        const user = await User.findById(req.user?._id);
+        user!.role = user?.role ?? "admin";
+
+        await user?.save();
 
         res.status(200).json({
             success: true,

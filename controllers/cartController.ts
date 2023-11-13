@@ -26,6 +26,7 @@ export const showCartItems = catchAsyncError(async (req: Request, res: Response,
 
 });
 
+
 export const addCartItem = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     const {
         menuItemId,
@@ -34,6 +35,10 @@ export const addCartItem = catchAsyncError(async (req: Request, res: Response, n
         specialInstructions,
         total
     } = req.body;
+
+    if (!name || !price || !price || !total) {
+        return next(new ErrorHandler('Missing Parameter', 400));
+    }
 
     const restaurentId = req.params.restaurentId;
 
@@ -88,7 +93,6 @@ export const addCartItem = catchAsyncError(async (req: Request, res: Response, n
 
     } catch (error) {
         console.log(error);
-
         return next(new ErrorHandler('Failed to add item in the cart', 500));
     }
 });
@@ -153,8 +157,6 @@ export const removeCartItem = catchAsyncError(async (req: Request, res: Response
 
     try {
         const cart = await Cart.findOne({ user_id: req.user?._id, _id: req.body.cartId });
-
-        console.log(cart);
 
         if (!cart) {
             return next(new ErrorHandler('Cart not found', 404));

@@ -35,7 +35,7 @@ export interface OrderTypes extends Document {
         orderPlacement: Date;
         acceptedByRestaurent?: Date;
         pickedUpByDriver?: Date;
-        delivered: Date;
+        delivered?: Date;
     },
     paymentInformation: {
         paymentMethod: string;
