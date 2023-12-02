@@ -119,7 +119,12 @@ export const getAllRestaurent = catchAsyncError(async (req: Request, res: Respon
         const query: any = {};
 
         if (city) {
-            query.city = city.toString();
+            // query.city = city.toString();
+            // query['address.city'] = city.toString();
+            query['address.city'] = {
+                $regex: city.toString(),
+                $options: 'i',
+            };
         }
 
         if (restaurent_name) {

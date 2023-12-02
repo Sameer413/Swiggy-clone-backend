@@ -11,7 +11,7 @@ import { getDataUri } from "../utils/dataUri";
 import cloudinary from "cloudinary";
 
 export const signUp = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password, confirmPassword } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
 
     if (!email || !password || !confirmPassword) {
         next(new ErrorHandler('Enter All Fields', 400));
@@ -30,6 +30,7 @@ export const signUp = catchAsyncError(async (req: Request, res: Response, next: 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser: UserType = await User.create({
+            name,
             email,
             password: hashedPassword,
         })
@@ -303,6 +304,15 @@ export const deleteUser = catchAsyncError(async (req: Request, res: Response, ne
         console.log(error);
         return next(new ErrorHandler('Failed to delete user', 500));
     }
+});
+
+export const isAuth = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.user?._id);
+
+    res.status(200).json({
+        success: true,
+        user
+    })
 });
 
 // export const testingRoute = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {

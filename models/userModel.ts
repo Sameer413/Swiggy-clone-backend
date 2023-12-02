@@ -59,11 +59,11 @@ const userSchema = new Schema<UserType>({
     avatar: {
         public_id: {
             type: String,
-            required: [true, "Avatar Public id is required!"],
+            // required: [true, "Avatar Public id is required!"],
         },
         url: {
             type: String,
-            required: [true, "avatar url is required!"],
+            // required: [true, "avatar url is required!"],
         }
     },
     resetPasswordToken: String,

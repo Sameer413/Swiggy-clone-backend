@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { addUserAddress, deleteUser, deleteUserAddress, resetPassword, sendResetPasswordEmail, signIn, signOut, signUp, updatePassword, updateProfile } from "../controllers/userController";
+import { addUserAddress, deleteUser, deleteUserAddress, isAuth, resetPassword, sendResetPasswordEmail, signIn, signOut, signUp, updatePassword, updateProfile } from "../controllers/userController";
 import { isAuthenticated } from "../middleware/auth";
 // import multerUploads from "../middleware/multer";
 
 const router = Router();
-
+router.route('/me').get(isAuthenticated, isAuth);
 router.route('/signup').post(signUp);
 router.route('/signin').post(signIn);
 router.route('/logout').get(signOut);

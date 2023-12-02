@@ -203,14 +203,13 @@ export const updateMenuItem = catchAsyncError(async (req: Request, res: Response
             const fileUri = getDataUri(menuImage);
             myCloud = await cloudinary.v2.uploader.upload(fileUri.content || '', { folder: `Menu/${req.params.restaurentId}` });
         }
-        console.log("heelooyeel");
+
         if (myCloud) {
             menuItem.dishImage = {
                 public_url: myCloud?.public_id,
                 url: myCloud?.secure_url
             }
         }
-        console.log("heeloo");
 
         await restaurentMenu.save();
 
